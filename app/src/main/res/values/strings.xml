@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">GoogleLocation</string>
+    <string name="radius">Radius</string>
+    <string name="location_permission_rationale">We need location permission to show your current location</string>
+    <string name="meters">meters</string>
+    <string name="location_permission_denied_settings">We need location permission to display your current location, please turn on location permission in Android Settings</string>
+    <string name="looking">Looking for you on the face of the earth...</string>
+    <string name="found_you">Found you at:</string>
+    <string name="no_gps_or_network">No GPS or Network Location available</string>
+</resources>
