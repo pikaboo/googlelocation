@@ -5,12 +5,23 @@
     android:descendantFocusability="beforeDescendants"
     android:orientation="vertical">
 
-    <pl.droidsonroids.gif.GifImageView
-        android:src="@drawable/earth_spinning_rotating_animation_25"
-        android:id="@+id/photo"
-        android:layout_gravity="center"
+    <FrameLayout
         android:layout_width="wrap_content"
-        android:layout_height="200dp" />
+        android:layout_height="200dp"
+        android:layout_gravity="center">
+
+        <pl.droidsonroids.gif.GifImageView
+            android:layout_gravity="center"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/earth_spinning_rotating_animation_25" />
+
+        <ImageView
+            android:layout_gravity="center"
+            android:id="@+id/photo"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+    </FrameLayout>
 
     <TextView
         android:id="@+id/title"
