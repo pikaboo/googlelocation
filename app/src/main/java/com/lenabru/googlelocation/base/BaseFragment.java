@@ -8,7 +8,7 @@ import android.support.v4.app.Fragment;
 import com.lenabru.googlelocation.managers.EventBusManager;
 
 /**
- * Created by eSommerMacMini on 30/12/2017.
+ * Created by Lena Brusilovski on 30/12/2017.
  */
 
 public class BaseFragment extends Fragment implements EventSender {

@@ -8,7 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.lenabru.googlelocation.managers.EventBusManager;
 
 /**
- * Created by eSommerMacMini on 30/12/2017.
+ * Created by Lena Brusilovski on 30/12/2017.
  */
 
 public class BaseActivity extends AppCompatActivity implements EventSender {

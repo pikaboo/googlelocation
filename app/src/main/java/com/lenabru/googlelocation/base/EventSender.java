@@ -3,7 +3,7 @@ package com.lenabru.googlelocation.base;
 import com.lenabru.googlelocation.managers.EventBusManager;
 
 /**
- * Created by eSommerMacMini on 30/12/2017.
+ * Created by Lena Brusilovski on 30/12/2017.
  */
 
 public interface EventSender {
