@@ -3,13 +3,14 @@ package com.lenabru.googlelocation.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by Lena Brusilovski on 29/12/2017.
  */
 
-public class AddressComponent {
+public class AddressComponent implements Serializable {
 
     @SerializedName("long_name")
     @Expose

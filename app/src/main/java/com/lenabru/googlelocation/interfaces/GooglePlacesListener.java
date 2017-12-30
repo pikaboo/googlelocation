@@ -9,5 +9,4 @@ import com.lenabru.googlelocation.models.GooglePlaces;
 public interface GooglePlacesListener {
 
     void onGooglePlacesReceived(GooglePlaces places);
-    void onError(String error);
 }

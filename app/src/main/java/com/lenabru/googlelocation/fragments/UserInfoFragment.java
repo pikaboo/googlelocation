@@ -6,11 +6,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.android.gms.maps.model.LatLng;
 import com.lenabru.googlelocation.R;
+import com.lenabru.googlelocation.base.BaseFragment;
 import com.lenabru.googlelocation.interfaces.GoogleAddressesListener;
 import com.lenabru.googlelocation.interfaces.HasCoordinates;
 import com.lenabru.googlelocation.managers.GooglePlacesManager;
@@ -18,25 +17,20 @@ import com.lenabru.googlelocation.models.AddressResult;
 import com.lenabru.googlelocation.models.GoogleAddresses;
 import com.lenabru.googlelocation.models.Location;
 
-import javax.microedition.khronos.opengles.GL;
-
-import pl.droidsonroids.gif.GifDrawable;
-import pl.droidsonroids.gif.GifImageView;
 
 /**
  * Created by Lena Brusilovski on 29/12/2017.
  */
 
-public class MapInfoFragment extends Fragment implements HasCoordinates, GoogleAddressesListener {
+public class UserInfoFragment extends BaseFragment implements HasCoordinates, GoogleAddressesListener {
 
     private static final String LAST_KNOWN_ADDRESS = "LastKnownAddress";
+
     private GooglePlacesManager googlePlacesManager;
+    private GoogleAddresses lastKnownAddress;
 
     private TextView latLngTextView;
     private TextView addressTextView;
-
-    private GoogleAddresses lastKnownAddress;
-    private LatLng myPosition;
     private View globeLayout;
     private View foundYouLayout;
 
@@ -60,19 +54,18 @@ public class MapInfoFragment extends Fragment implements HasCoordinates, GoogleA
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.map_info, container, false);
+        View v = inflater.inflate(R.layout.user_info, container, false);
         latLngTextView = v.findViewById(R.id.latlng);
         addressTextView = v.findViewById(R.id.address);
         globeLayout = v.findViewById(R.id.globeLayout);
         foundYouLayout = v.findViewById(R.id.foundYouLayout);
-        foundYouLayout.setVisibility(View.INVISIBLE);
+        setSearching(true);
         return v;
     }
 
     @Override
     public void setCoordinates(double latitude, double longitude) {
-        myPosition = new LatLng(latitude, longitude);
-        googlePlacesManager.getMyLocationInfo(latitude, longitude, this);
+        googlePlacesManager.getMyLocationInfo(latitude, longitude/*, this*/);
     }
 
 
@@ -91,9 +84,13 @@ public class MapInfoFragment extends Fragment implements HasCoordinates, GoogleA
             Location location = result.getGeometry().getLocation();
             latLngTextView.setText("LatLng:" + location.getLat() + "," + location.getLng());
             addressTextView.setText(result.getFormattedAddress());
-            globeLayout.setVisibility(View.GONE);
-            foundYouLayout.setVisibility(View.VISIBLE);
+            setSearching(false);
         }
 
+    }
+
+    private void setSearching(boolean searching){
+        globeLayout.setVisibility(searching? View.VISIBLE : View.GONE);
+        foundYouLayout.setVisibility(searching? View.GONE : View.VISIBLE);
     }
 }

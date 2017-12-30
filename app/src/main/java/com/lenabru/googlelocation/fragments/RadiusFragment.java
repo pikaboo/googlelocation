@@ -2,7 +2,6 @@ package com.lenabru.googlelocation.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,12 +9,14 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.lenabru.googlelocation.R;
+import com.lenabru.googlelocation.base.Action;
+import com.lenabru.googlelocation.base.BaseFragment;
 
 /**
  * Created by Lena Brusilovski on 29/12/2017.
  */
 
-public class RadiusFragment extends Fragment implements SeekBar.OnSeekBarChangeListener {
+public class RadiusFragment extends BaseFragment implements SeekBar.OnSeekBarChangeListener {
 
 
     public interface OnRadiusChangedListener {
@@ -28,14 +29,6 @@ public class RadiusFragment extends Fragment implements SeekBar.OnSeekBarChangeL
     private SeekBar radius;
     private TextView radiusTitle;
     private TextView radiusContent;
-
-    private OnRadiusChangedListener radiusChangedListener;
-    private final OnRadiusChangedListener EMPTY_RADIUS_LISTENER = new OnRadiusChangedListener() {
-        @Override
-        public void onRadiusChanged(int radius) {
-            //empty implementation
-        }
-    };
 
 
     @Nullable
@@ -57,15 +50,6 @@ public class RadiusFragment extends Fragment implements SeekBar.OnSeekBarChangeL
         radius.setOnSeekBarChangeListener(this);
     }
 
-
-    public OnRadiusChangedListener getRadiusChangedListener() {
-        return radiusChangedListener != null ? radiusChangedListener : EMPTY_RADIUS_LISTENER;
-    }
-
-    public void setRadiusChangedListener(OnRadiusChangedListener radiusChangedListener) {
-        this.radiusChangedListener = radiusChangedListener;
-    }
-
     @Override
     public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
         int progress = getRadiusFromSeekbar(seekBar); //minimum of RADIUS_INCREMENT distance
@@ -84,9 +68,13 @@ public class RadiusFragment extends Fragment implements SeekBar.OnSeekBarChangeL
 
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
-        int progress = getRadiusFromSeekbar(seekBar);
-        getRadiusChangedListener().onRadiusChanged(progress);
-
+        final int progress = getRadiusFromSeekbar(seekBar);
+        sendEvent(OnRadiusChangedListener.class, new Action<OnRadiusChangedListener>() {
+            @Override
+            public void run(OnRadiusChangedListener listener) {
+                listener.onRadiusChanged(progress);
+            }
+        });
     }
 
 }

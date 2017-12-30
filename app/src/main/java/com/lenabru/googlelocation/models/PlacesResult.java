@@ -4,12 +4,13 @@ package com.lenabru.googlelocation.models;
  * Created by Lena Brusilovski on 26/12/2017.
  */
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class PlacesResult {
+public class PlacesResult implements Serializable{
     @SerializedName("geometry")
     @Expose
     private Geometry geometry;
@@ -41,6 +42,31 @@ public class PlacesResult {
     @SerializedName("price_level")
     @Expose
     private int priceLevel;
+
+    @SerializedName("opening_hours")
+    @Expose
+    private OpeningHours openingHours;
+
+    @SerializedName("photos")
+    @Expose
+    private List<Photo> photos = null;
+
+    public OpeningHours getOpeningHours() {
+        return openingHours;
+    }
+
+    public void setOpeningHours(OpeningHours openingHours) {
+        this.openingHours = openingHours;
+    }
+
+    public List<Photo> getPhotos() {
+        return photos;
+    }
+
+    public void setPhotos(List<Photo> photos) {
+        this.photos = photos;
+    }
+
     public Geometry getGeometry() {
         return geometry;
     }

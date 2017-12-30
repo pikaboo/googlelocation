@@ -2,18 +2,36 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:weightSum="3">
 
-    <FrameLayout
-        android:id="@+id/infoAddress"
+    <LinearLayout
+        tools:background="#ff00"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        xmlns:tools="http://schemas.android.com/tools"
-        tools:background="#ff00ff00"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:weightSum="3">
+
+        <FrameLayout xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/infoAddress"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.2"
+            tools:background="#ff00ff00" />
+
+        <FrameLayout
+            android:id="@+id/placesList"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.8"
+            android:paddingBottom="10dp" />
+
+    </LinearLayout>
 
     <FrameLayout
+        tools:background="#ff00ff"
         android:id="@+id/main"
         android:layout_width="0dp"
         android:layout_height="match_parent"

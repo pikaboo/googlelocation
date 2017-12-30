@@ -1,5 +1,6 @@
 package com.lenabru.googlelocation.models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import com.google.gson.annotations.Expose;
@@ -9,7 +10,7 @@ import com.google.gson.annotations.SerializedName;
  */
 
 
-public class GooglePlaces {
+public class GooglePlaces implements Serializable {
 
     @SerializedName("results")
     @Expose

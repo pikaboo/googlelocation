@@ -8,13 +8,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.lenabru.googlelocation.R;
+import com.lenabru.googlelocation.base.BaseFragment;
 import com.lenabru.googlelocation.interfaces.HasCoordinates;
 
 /**
  * Created by Lena Brusilovski on 29/12/2017.
  */
 
-public class RadiusMapFragment extends Fragment implements HasCoordinates {
+public class RadiusMapFragment extends BaseFragment {
 
 
     private static final String MAP_FRAGMENT = "MapFragment";
@@ -42,7 +43,6 @@ public class RadiusMapFragment extends Fragment implements HasCoordinates {
             mapFragment = (MapFragment) getChildFragmentManager().getFragment(savedInstanceState, MAP_FRAGMENT);
             radiusFragment = (RadiusFragment) getChildFragmentManager().getFragment(savedInstanceState, RADIUS_FRAGNENT);
         }
-        radiusFragment.setRadiusChangedListener(mapFragment);
     }
 
 
@@ -51,11 +51,6 @@ public class RadiusMapFragment extends Fragment implements HasCoordinates {
         super.onSaveInstanceState(outState);
         getChildFragmentManager().putFragment(outState, MAP_FRAGMENT, mapFragment);
         getChildFragmentManager().putFragment(outState, RADIUS_FRAGNENT, radiusFragment);
-    }
-
-    @Override
-    public void setCoordinates(double lattitude, double longitude) {
-        mapFragment.setCoordinates(lattitude, longitude);
     }
 
 }

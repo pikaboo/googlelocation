@@ -5,11 +5,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Build;
 
+import com.lenabru.googlelocation.base.BaseManager;
+
 /**
  * Created by Lena Brusilovski on 29/12/2017.
  */
 
-public class DialogManager {
+public class DialogManager extends BaseManager{
 
     public interface OnDialogButtonClick {
         void onButtonClicked();

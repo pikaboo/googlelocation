@@ -20,6 +20,7 @@ public interface GoogleWebService {
 
     @GET("maps/api/geocode/json")
     Call<GoogleAddresses>getAddress(@Query("latlng") String latlng, @Query("key") String key);
+
 }
 
 

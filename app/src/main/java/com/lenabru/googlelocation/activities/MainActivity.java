@@ -9,38 +9,54 @@ import android.location.LocationManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.lenabru.googlelocation.R;
-import com.lenabru.googlelocation.fragments.MapInfoFragment;
+import com.lenabru.googlelocation.base.Action;
+import com.lenabru.googlelocation.base.BaseActivity;
+import com.lenabru.googlelocation.base.Constants;
+import com.lenabru.googlelocation.fragments.PlaceInfoFragment;
+import com.lenabru.googlelocation.fragments.PlacesListFragment;
+import com.lenabru.googlelocation.fragments.UserInfoFragment;
 import com.lenabru.googlelocation.fragments.RadiusMapFragment;
+import com.lenabru.googlelocation.interfaces.HasCoordinates;
 import com.lenabru.googlelocation.managers.DialogManager;
+import com.lenabru.googlelocation.managers.OnPlaceSelectedListener;
 import com.lenabru.googlelocation.managers.PermissionsManager;
+import com.lenabru.googlelocation.models.PlacesResult;
 
-public class MainActivity extends AppCompatActivity implements PermissionsManager.OnPermissionStatusUpdate, LocationListener {
+public class MainActivity extends BaseActivity implements Constants,PermissionsManager.OnPermissionStatusUpdate, LocationListener, OnPlaceSelectedListener {
 
     private static final String RADIUS_MAP_FRAGMENT = "RadiusMapFragment";
-    private static final String MAP_INFO_FRAGMENT = "MapInfoFragment";
+    private static final String USER_INFO_FRAGMENT = "UserInfoFragment";
+    private static final String PLACES_FRAGMENT = "PlacesFragment";
 
     private PermissionsManager permissionsManager;
     private DialogManager dialogManager;
     private LocationManager locationManager;
+
     private RadiusMapFragment radiusMapFragment;
-    private MapInfoFragment mapInfoFragment;
+    private UserInfoFragment userInfoFragment;
+    private PlacesListFragment placesListFragment;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         if (savedInstanceState != null) {
             radiusMapFragment = (RadiusMapFragment) getSupportFragmentManager().getFragment(savedInstanceState, RADIUS_MAP_FRAGMENT);
-            mapInfoFragment = (MapInfoFragment) getSupportFragmentManager().getFragment(savedInstanceState, MAP_INFO_FRAGMENT);
+            userInfoFragment = (UserInfoFragment) getSupportFragmentManager().getFragment(savedInstanceState, USER_INFO_FRAGMENT);
+            placesListFragment = (PlacesListFragment) getSupportFragmentManager().getFragment(savedInstanceState,PLACES_FRAGMENT);
         } else {
             radiusMapFragment = new RadiusMapFragment();
-            mapInfoFragment = new MapInfoFragment();
-            getSupportFragmentManager().beginTransaction().replace(R.id.infoAddress, mapInfoFragment).replace(R.id.main, radiusMapFragment).commit();
+            userInfoFragment = new UserInfoFragment();
+            placesListFragment = new PlacesListFragment();
+            getSupportFragmentManager().beginTransaction()//
+                                        .replace(R.id.infoAddress, userInfoFragment)//
+                                        .replace(R.id.main, radiusMapFragment)//
+                                        .replace(R.id.placesList,placesListFragment)//
+                                        .commit();
 
         }
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
@@ -53,7 +69,8 @@ public class MainActivity extends AppCompatActivity implements PermissionsManage
         super.onSaveInstanceState(outState);
         FragmentManager mgr = getSupportFragmentManager();
         mgr.putFragment(outState, RADIUS_MAP_FRAGMENT, radiusMapFragment);
-        mgr.putFragment(outState, MAP_INFO_FRAGMENT, mapInfoFragment);
+        mgr.putFragment(outState, USER_INFO_FRAGMENT, userInfoFragment);
+        mgr.putFragment(outState,PLACES_FRAGMENT,placesListFragment);
     }
 
     @Override
@@ -100,11 +117,15 @@ public class MainActivity extends AppCompatActivity implements PermissionsManage
 
     @Override
     public void onLocationChanged(Location location) {
-        double lattitude = location.getLatitude();
-        double longitude = location.getLongitude();
-        radiusMapFragment.setCoordinates(lattitude, longitude);
-        mapInfoFragment.setCoordinates(lattitude, longitude);
         locationManager.removeUpdates(this);
+        final double lattitude = location.getLatitude();
+        final double longitude = location.getLongitude();
+        sendEvent(HasCoordinates.class, new Action<HasCoordinates>() {
+            @Override
+            public void run(HasCoordinates listener) {
+                listener.setCoordinates(lattitude,longitude);
+            }
+        });
     }
 
     @Override
@@ -144,5 +165,14 @@ public class MainActivity extends AppCompatActivity implements PermissionsManage
                 }
             });
         }
+    }
+
+    @Override
+    public void onPlaceSelected(PlacesResult place) {
+        PlaceInfoFragment placeInfoFragment = new PlaceInfoFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(PLACE,place);
+        placeInfoFragment.setArguments(bundle);
+        placeInfoFragment.show(getSupportFragmentManager(),"PlaceInfoFragment");
     }
 }

@@ -7,4 +7,8 @@
     <string name="looking">Looking for you on the face of the earth...</string>
     <string name="found_you">Found you at:</string>
     <string name="no_gps_or_network">No GPS or Network Location available</string>
+    <string name="no_places_nearby">No places near by found</string>
+    <string name="opening_hours">Open Now: %s</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>
